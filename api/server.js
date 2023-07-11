@@ -5,6 +5,7 @@ require('dotenv').config();
 const helmet = require('helmet');
 const cors = require('cors');
 const morgan = require('morgan')
+const { restricted } = require('./Auth/auth-middleware');
 
 
 //2. global middleware
@@ -14,7 +15,7 @@ server.use(morgan('dev'));
 server.use(express.json());
 
 //3. routerlar
-server.get('/', (req,res) => {
+server.get('/',restricted, (req,res) => {
     res.json({message:"Server up and running..."})
 })
 
