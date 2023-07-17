@@ -9,9 +9,9 @@ const defaultRoles = [
 ];
 
 const defaultUsers = [
-  {user_id:1, username:"glnyrdm", email:"gln@gln.com", first_name:"Gülin", last_name:"Yardımoğlu", password:"1234"},
-  {user_id:2, username:"segdi", email:"segdi@segdi.com", first_name:"Segah", last_name:"Durak", password:"1234"},
-  {user_id:3, username:"cmylmz", email:"cem@yilmaz.com", first_name:"Cem", last_name:"Yılmaz", password:"1234"}
+  {user_id:1, username:"glnyrdm", email:"gln@gln.com", first_name:"Gülin", last_name:"Yardımoğlu",role_id:1, password:"1234"},
+  {user_id:2, username:"segdi", email:"segdi@segdi.com", first_name:"Segah", last_name:"Durak",role_id:1, password:"1234"},
+  {user_id:3, username:"cmylmz", email:"cem@yilmaz.com", first_name:"Cem", last_name:"Yılmaz",role_id:2, password:"1234"}
 ];
 
 const defaultTweetType = [
@@ -21,8 +21,9 @@ const defaultTweetType = [
 
 const defaultTweets = [
   {tweet_id:1, content:"o zaman dans, renk...", user_id:2, type_id:1},
-  {tweet_id:2, content:"o zaman dans, renk...", user_id:1, type_id:2},
-  {tweet_id:3, content:"Uzaylılar tarafından kaçırıldım...Evet tarafından!!!", user_id:3, type_id:1}
+  {tweet_id:2, content:"bu twitter çok bozdu", user_id:2, type_id:1},
+  {tweet_id:3, content:"o zaman dans, renk...", user_id:1, type_id:2},
+  {tweet_id:4, content:"Uzaylılar tarafından kaçırıldım...Evet tarafından!!!", user_id:3, type_id:1}
 ];
 
 const defaultFollows = [

@@ -3,8 +3,7 @@
  * @returns { Promise<void> }
  */
 exports.up = function(knex) {
-  return knex.schema
-  .createTable('Roles', tbl => {
+  return knex.schema   .createTable('Roles', tbl => {
     tbl.increments('role_id');
     tbl.string('role_name').notNullable()
   })
@@ -31,10 +30,12 @@ exports.up = function(knex) {
   })
   .createTable('Follows', tbl => {
     tbl.increments('follow_id');
-    tbl.integer('following_id').references('user_id').inTable('Users').onDelete('RESTRICT');
-    tbl.integer('follower_id').references('user_id').inTable('Users').onDelete('RESTRICT')
+    tbl.integer('following_id')
+    tbl.integer('follower_id')
+    tbl.integer('user_id').references('user_id').inTable('Users').onDelete('RESTRICT')
   })
 };
+
 
 /**
  * @param { import("knex").Knex } knex

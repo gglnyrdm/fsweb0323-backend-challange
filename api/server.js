@@ -6,6 +6,8 @@ const helmet = require('helmet');
 const cors = require('cors');
 const morgan = require('morgan')
 const { restricted } = require('./Auth/auth-middleware');
+const authRouter = require('../api/Auth/auth-router');
+const userRouter = require('../api/Users/users-router');
 
 
 //2. global middleware
@@ -13,6 +15,9 @@ server.use(helmet());
 server.use(cors());
 server.use(morgan('dev'));
 server.use(express.json());
+
+server.use('/api/auth', authRouter);
+server.use('/api/users', userRouter);
 
 //3. routerlar
 server.get('/',restricted, (req,res) => {

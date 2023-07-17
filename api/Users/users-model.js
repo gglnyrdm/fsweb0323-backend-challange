@@ -8,7 +8,7 @@ const getAll = () => {
                     "u.username", 
                     "u.email", 
                     "u.first_name", 
-                    "u.lastname", 
+                    "u.last_name", 
                     "u.created_at",
                     "r.role_id",
                     "r.role_name",
@@ -24,7 +24,7 @@ const getById = async (user_id) => {
             "u.username", 
             "u.email",
              "u.first_name", 
-             "u.lastname", 
+             "u.last_name", 
              "u.created_at",
              "r.role_id",
              "r.role_name",
@@ -35,6 +35,10 @@ const getById = async (user_id) => {
     return user;
 }
 
+const getByName = username => {
+    return db('Users').where("username",username).first();
+}
+
 const getByFilter = async(filter) => {
     return await db('Users as u')
             .leftJoin('Roles as r',"u.role_id","r.role_id")
@@ -43,7 +47,7 @@ const getByFilter = async(filter) => {
             "u.username", 
             "u.email", 
             "u.first_name", 
-            "u.lastname", 
+            "u.last_name", 
             "u.created_at",
             "r.role_id",
             "r.role_name",
@@ -72,6 +76,7 @@ module.exports = {
     getById,
     create,
     update,
-    remove
+    remove,
+    getByName
 
 }
