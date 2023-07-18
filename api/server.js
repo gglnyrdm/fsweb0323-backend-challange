@@ -8,6 +8,7 @@ const morgan = require('morgan')
 const { restricted } = require('./Auth/auth-middleware');
 const authRouter = require('../api/Auth/auth-router');
 const userRouter = require('../api/Users/users-router');
+const tweetRouter = require('../api/Tweets/tweets-router');
 
 
 //2. global middleware
@@ -18,6 +19,7 @@ server.use(express.json());
 
 server.use('/api/auth', authRouter);
 server.use('/api/users', userRouter);
+server.use('/api/tweets', tweetRouter);
 
 //3. routerlar
 server.get('/',restricted, (req,res) => {

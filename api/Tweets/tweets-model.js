@@ -15,19 +15,19 @@ const getAll = () => {
 }
 
 const getById = async (tweet_id) => {
-    const tweet = await db("Tweets as u")
-            .leftJoin('Users as u', "u.user_id","t.user_id")
-            .leftJoin("Tweet_type as ty", "t.type_id", "ty.type_id")
-            .select("t.tweet_id", 
-                    "t.created_at", 
-                    "t.content",
-                    "u.user_id",
-                    "u.username", 
-                    "ty.type_id",
-                    "ty.type_name"
-                    )
-            .where("t.tweet_id",tweet_id)
-            .first()
+    const tweet = await db("Tweets as t")
+        .leftJoin('Users as u', "u.user_id", "t.user_id")
+        .leftJoin("Tweet_type as ty", "t.type_id", "ty.type_id")
+        .select("t.tweet_id",
+            "t.created_at",
+            "t.content",
+            "u.user_id",
+            "u.username",
+            "ty.type_id",
+            "ty.type_name"
+        )
+        .where("t.tweet_id", tweet_id)
+        .first();
     return tweet;
 }
 
