@@ -2,16 +2,53 @@ const router = require('express').Router();
 const mw = require('./auth-middleware');
 const bcrypt = require('bcryptjs');
 const userModel = require('../Users/users-model')
+const userMw = require('../Users/users-middleware');
 
-router.post('/register',mw.validUsername,mw.isEmailAvailable, async (req,res,next) => {
+
+router.post('/register', userMw.payloadCheck, mw.hashPassword, async (req,res,next)=>{
     try {
-        let { username,email,password,first_name, last_name} = req.body;
-        const hashPassword = bcrypt.hashSync(password);
-        const inserted = await userModel.create({username:username,email:email,password:hashPassword,first_name:first_name,last_name:last_name});
-        res.status(201).json(inserted);
-    } catch (error) {
-        next(error)
+        const payload = req.body;
+        const user = await userModel.create(payload);
+        if (user) {
+            res.status(201).json({message: `Merhaba ${user.username}...`})
+        } else {
+            next({status: 400, message: "Kayıt sırasında hata oluştu!.."})
+        }
+    } catch(err){
+        next(err)
+    }
+})
+
+router.post('/login',mw.isEmailExist, mw.passwordCheck,mw.generateToken,  async (req,res,next)=>{
+    try {
+        const user = req.user;
+        const token = user.token;
+        res.json({message: `Welcome back ${user.username}...`, token})
+
+    } catch(err){
+        next(err)
+    }
+})
+
+router.get('/logout', mw.restricted, mw.logout, async (req,res,next)=>{
+    try {
+        const username = req.decodedUser.username;
+        res.json({message: `Get back soon ${username}...`})
+
+    } catch(err){
+        next(err)
+    }
+})
+
+router.get('/me', mw.restricted, async (req,res,next)=>{
+    try {
+       const user_id = req.decodedUser.user_id;
+       const user = await userModel.getById(user_id);
+       res.json(user);
+    } catch(err){
+        next(err)
     }
 })
 
 module.exports = router;
+

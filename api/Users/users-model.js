@@ -39,8 +39,8 @@ const getByName = username => {
     return db('Users').where("username",username).first();
 }
 
-const getByFilter = async(filter) => {
-    return await db('Users as u')
+const getByFilter = (filter) => {
+    return  db('Users as u')
             .leftJoin('Roles as r',"u.role_id","r.role_id")
             .leftJoin("Follows as f", "u.user_id","f.user_id")
             .select("u.user_id",
