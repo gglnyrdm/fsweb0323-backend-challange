@@ -14,19 +14,23 @@ const hashPassword = async (req, res, next) => {
 };
 
 const passwordCheck = (req, res, next) => {
-    if (!req.user) {
-        console.log('passwordCheck: req.user is undefined');
-        next({ status: 401, message: "Invalid credentials!.." });
-        return;
-    }
+    try {
+        if (!req.user) {
+            next({ status: 401, message: "Invalid credentials!.." });
+            return;
+        }
 
-    if (bcrypt.compareSync(req.body.password, req.user.password)) {
-        next();
-    } else {
-        console.log('passwordCheck: Invalid password');
-        next({ status: 401, message: "Invalid credentials!.." });
+        const isPasswordValid = bcrypt.compareSync(req.body.password, req.user.password);
+        if (isPasswordValid) {
+            next();
+        } else {
+            next({ status: 401, message: "Invalid credentials!.." });
+        }
+    } catch (error) {
+        next(error);
     }
 };
+
 
 const generateToken =  (req, res, next) => {
   try {
@@ -41,7 +45,6 @@ const generateToken =  (req, res, next) => {
     };
     const token = jwt.sign(payload, JWT_SECRET, options);
     req.user.token = token;
-    console.log('Generated Token:', token);
     next();
   } catch (error) {
     next(error);
@@ -55,15 +58,12 @@ const restricted = async (req, res, next) => {
       jwt.verify(token, JWT_SECRET, (err, decodedJWT) => {
           if (!err) {
             req.decodedUser = decodedJWT;
-            console.log('Restricted: Valid Token');
             next();
           } else {
-            console.log('Restricted: Invalid Token');
             next(err);
           }
         });
     } else {
-        console.log('Restricted: Token is required');
       next({ status: 400, message: "Token is required!..." });
     }
   } catch (err) {
