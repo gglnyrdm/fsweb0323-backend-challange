@@ -3,7 +3,7 @@
 /**
  * @type { Object.<string, import("knex").Knex.Config> }
  */
-module.exports = {
+ module.exports = {
 
   development: {
     client: 'sqlite3',
@@ -35,11 +35,10 @@ module.exports = {
       directory: './data/seeds'
     },
     useNullAsDefault: true,
-    pool: {    
-      afterCreate: (conn, done) => { 
+    pool: {
+      afterCreate: (conn, done) => {
         conn.run('PRAGMA foreign_keys = ON', done);
-      }
+      },
     }
-  }
-
+  },
 };

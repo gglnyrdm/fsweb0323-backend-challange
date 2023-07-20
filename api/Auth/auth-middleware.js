@@ -75,11 +75,9 @@ const isEmailExist = async (req, res, next) => {
     const { email } = req.body;
     const user = await authModel.getByFilter({ "u.email":email });
     if (user.length === 0) {
-        console.log('isEmailExist: Invalid credentials');
       next({ status: 401, message: "Invalid credentials!.." });
     } else {
       req.user = user[0];
-      console.log('isEmailExist: Valid credentials');
       next();
     }
   };

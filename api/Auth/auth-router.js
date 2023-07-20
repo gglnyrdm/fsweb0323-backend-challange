@@ -1,8 +1,8 @@
 const router = require('express').Router();
 const mw = require('./auth-middleware');
-const bcrypt = require('bcryptjs');
 const userModel = require('../Users/users-model')
 const userMw = require('../Users/users-middleware');
+const tokenHelper = require('../../helpers/index');
 
 
 router.post('/register', userMw.payloadCheck, mw.hashPassword, async (req,res,next)=>{
@@ -19,7 +19,7 @@ router.post('/register', userMw.payloadCheck, mw.hashPassword, async (req,res,ne
     }
 })
 
-router.post('/login',mw.isEmailExist, mw.passwordCheck,mw.generateToken,  async (req,res,next)=>{
+router.post('/login',mw.isEmailExist, mw.passwordCheck,mw.generateToken, (req,res,next)=>{
     try {
         const user = req.user;
         const token = user.token;
@@ -32,19 +32,9 @@ router.post('/login',mw.isEmailExist, mw.passwordCheck,mw.generateToken,  async 
 
 router.get('/logout', mw.restricted, mw.logout, async (req,res,next)=>{
     try {
-        const username = req.decodedUser.username;
+        tokenHelper.logout(req.headers.authorization);
         res.json({message: `Get back soon ${username}...`})
 
-    } catch(err){
-        next(err)
-    }
-})
-
-router.get('/me', mw.restricted, async (req,res,next)=>{
-    try {
-       const user_id = req.decodedUser.user_id;
-       const user = await userModel.getById(user_id);
-       res.json(user);
     } catch(err){
         next(err)
     }

@@ -34,11 +34,11 @@ const defaultFollows = [
 
 exports.seed = async function(knex) {
   // Deletes ALL existing entries
-  await knex('Roles').truncate()
-  await knex('Users').truncate()
-  await knex('Tweet_type').truncate()
-  await knex('Tweets').truncate()
-  await knex('Follows').truncate()
+  await knex('Follows').truncate();
+  await knex('Tweets').truncate();
+  await knex('Tweet_type').truncate();
+  await knex('Users').truncate();
+  await knex('Roles').truncate();
 
   await knex('Roles').insert(defaultRoles);
   await knex('Users').insert(defaultUsers);
