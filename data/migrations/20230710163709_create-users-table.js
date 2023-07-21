@@ -15,7 +15,7 @@ exports.up = function(knex) {
     tbl.string('last_name', 128).notNullable();
     tbl.string('password').notNullable();
     tbl.timestamp('created_at').defaultTo(knex.fn.now());
-    tbl.integer('role_id').references('role_id').inTable('Roles').onDelete('RESTRICT').defaultTo(1);
+    tbl.integer('role_id').references('role_id').inTable('Roles').onDelete('RESTRICT').defaultTo(2);
   })
   .createTable('Tweet_type', tbl => {
     tbl.increments('type_id');

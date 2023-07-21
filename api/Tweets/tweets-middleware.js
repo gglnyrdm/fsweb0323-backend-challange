@@ -1,11 +1,11 @@
 const tweetModel = require('./tweets-model');
 
 const maxChar = (req,res,next) => {
-    let { tweet } = req.body;
+    let { content } = req.body;
     try {
-        if(!tweet){
+        if(!content){
             res.status(400).json({message:"Tweet alanı boş olamaz..."})
-        }else if(tweet.length > 140) {
+        }else if(content.length > 140) {
             res.status(400).json({message:"tweet alanı 140 karakteri geçemez"})
         }else{
             next();
